@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-// import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {
   StyleSheet,
   Text,
@@ -14,7 +14,7 @@ export default function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   return (
-    // <NavigationContainer>
+    <NavigationContainer>
     <View style={styles.container}>
       <Image style={styles.image} source={require("./assets/log2.png")} /> 
       <StatusBar style="auto" />
@@ -42,11 +42,12 @@ export default function App() {
         <Text style={styles.loginText}>LOGIN</Text> 
       </TouchableOpacity>
       <TouchableOpacity>
-        <Text style={styles.create_button}>Create Account</Text>
-        {/* onPress = {() => navigation.navigate('Registration')} */}
+        <Text style={styles.create_button}>Create Account
+        onPress = {() => navigation.navigate('Registration')}
+        </Text>
       </TouchableOpacity> 
     </View> 
-    // </NavigationContainer>
+    </NavigationContainer>
   );
   class newUser extends App {
 
