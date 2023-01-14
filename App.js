@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   StyleSheet,
   Text,
@@ -10,11 +11,11 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
-export default function App() {
+
+function HomeScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   return (
-    <NavigationContainer>
     <View style={styles.container}>
       <Image style={styles.image} source={require("./assets/log2.png")} /> 
       <StatusBar style="auto" />
@@ -45,11 +46,7 @@ export default function App() {
         <Text style={styles.create_button}>Create Account</Text>
       </TouchableOpacity> 
     </View> 
-    </NavigationContainer>
   );
-  class newUser extends App {
-
-  }
 }
 const styles = StyleSheet.create({
   container: {
@@ -93,3 +90,15 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
+
+const Stack = createNativeStackNavigator();
+
+export default function App() {
+  return (
+  <NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screem name="home" component={HomeScreen} />
+    </Stack.Navigator>
+  </NavigationContainer>
+  );
+}
