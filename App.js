@@ -42,9 +42,7 @@ export default function App() {
         <Text style={styles.loginText}>LOGIN</Text> 
       </TouchableOpacity>
       <TouchableOpacity>
-        <Text style={styles.create_button}>Create Account
-        onPress = {() => navigation.navigate('Registration')}
-        </Text>
+        <Text style={styles.create_button}>Create Account</Text>
       </TouchableOpacity> 
     </View> 
     </NavigationContainer>
