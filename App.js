@@ -12,7 +12,21 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-function HomeScreen() {
+function HomeScreen({ navigation }) {
+  return (
+    <View style={styles.container}>
+      <Image style={styles.image} source={require("./assets/log2.png")} /> 
+      <StatusBar style="auto" />
+      <TouchableOpacity style={styles.loginBtn}>
+        <Text style={styles.loginText}>Login</Text> 
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.loginBtn} onPress={() => navigation.navigate('register')}>
+        <Text style={styles.create_button}>Sign Up</Text>
+      </TouchableOpacity> 
+    </View> 
+  );
+}
+function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   return (
@@ -39,13 +53,15 @@ function HomeScreen() {
       <TouchableOpacity>
         <Text style={styles.forgot_button}>Forgot Password?</Text> 
       </TouchableOpacity> 
-      <TouchableOpacity style={styles.loginBtn}>
-        <Text style={styles.loginText}>LOGIN</Text> 
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Text style={styles.create_button}>Create Account</Text>
-      </TouchableOpacity> 
-    </View> 
+    </View>
+  );
+}
+function RegisterScreen({ navigation }) {
+  return (
+    <View style={styles.container}>
+      <Image style={styles.image} source={require("./assets/log2.png")} /> 
+      <StatusBar style="auto" />
+    </View>
   );
 }
 const styles = StyleSheet.create({
@@ -78,16 +94,21 @@ const styles = StyleSheet.create({
   },
   loginBtn: {
     width: "80%",
-    borderRadius: 25,
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
+    borderRadius: 20,
+    height: 60,
+    alignItems: "left",
+    justifyContent: "left",
     marginTop: 30,
     backgroundColor: "#7af09a",
   },
   create_button: {
-    height: 30,
-    marginTop: 20,
+    width: "80%",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "right",
+    justifyContent: "right",
+    marginTop: 10,
+    backgroundColor: "#7af09a",
   },
 });
 
@@ -100,6 +121,8 @@ export default function App() {
       screenOptions={{headerShown: false}}
     >
       <Stack.Screen name="home" component={HomeScreen} />
+      <Stack.Screen name="register" component={RegisterScreen} />
+      <Stack.Screen name="login" component={LoginScreen} />
     </Stack.Navigator>
   </NavigationContainer>
   );
