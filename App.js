@@ -61,10 +61,7 @@ function LoginScreen({ navigation }) {
   );
 }
 function RegisterScreen({ navigation }) {
-  const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [userAge, setUserAge] = useState('');
-  const [userAddress, setUserAddress] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
@@ -74,26 +71,12 @@ function RegisterScreen({ navigation }) {
   ] = useState(false);
 
   const emailInputRef = createRef();
-  const ageInputRef = createRef();
-  const addressInputRef = createRef();
   const passwordInputRef = createRef();
 
   const handleSubmitButton = () => {
     setErrortext('');
-    if (!userName) {
-      alert('Please fill Name');
-      return;
-    }
     if (!userEmail) {
       alert('Please fill Email');
-      return;
-    }
-    if (!userAge) {
-      alert('Please fill Age');
-      return;
-    }
-    if (!userAddress) {
-      alert('Please fill Address');
       return;
     }
     if (!userPassword) {
@@ -103,10 +86,7 @@ function RegisterScreen({ navigation }) {
   //Show Loader
   setLoading(true);
   var dataToSend = {
-    name: userName,
     email: userEmail,
-    age: userAge,
-    address: userAddress,
     password: userPassword,
   };
   var formBody = [];
@@ -117,7 +97,7 @@ function RegisterScreen({ navigation }) {
   }
   formBody = formBody.join('&');
 
-  fetch('http://localhost:3000/api/user/register', {
+  fetch('http://myapp-3581c.firebaseapp.com', {
     method: 'POST',
     body: formBody,
     headers: {
@@ -169,7 +149,7 @@ if (isRegistraionSuccess) {
       <TouchableOpacity
         style={styles.buttonStyle}
         activeOpacity={0.5}
-        onPress={() => props.navigation.navigate('LoginScreen')}>
+        onPress={() => props.navigation.navigate('WelcomeScreen')}>
         <Text style={styles.buttonTextStyle}>Login Now</Text>
       </TouchableOpacity>
     </View>
@@ -199,21 +179,6 @@ if (isRegistraionSuccess) {
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={(UserName) => setUserName(UserName)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Name"
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                emailInputRef.current && emailInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
               onChangeText={(UserEmail) => setUserEmail(UserEmail)}
               underlineColorAndroid="#f000"
               placeholder="Enter Email"
@@ -240,43 +205,6 @@ if (isRegistraionSuccess) {
               ref={passwordInputRef}
               returnKeyType="next"
               secureTextEntry={true}
-              onSubmitEditing={() =>
-                ageInputRef.current &&
-                ageInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserAge) => setUserAge(UserAge)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Age"
-              placeholderTextColor="#8b9cb5"
-              keyboardType="numeric"
-              ref={ageInputRef}
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                addressInputRef.current &&
-                addressInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserAddress) =>
-                setUserAddress(UserAddress)
-              }
-              underlineColorAndroid="#f000"
-              placeholder="Enter Address"
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              ref={addressInputRef}
-              returnKeyType="next"
-              onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit={false}
             />
           </View>
@@ -301,6 +229,20 @@ function HomeScreen({ navigation }) {
     <View style={styles.container}>
       <Image style={styles.image} source={require("./assets/log2.png")} /> 
       <StatusBar style="auto" />
+    </View>
+  );
+}
+function WelcomeScreen( { navigation }) {
+  return (
+    <View style={styles.container}>
+    <Image style={styles.image} source={require("./assets/log2.png")} /> 
+      <StatusBar style="auto" />
+      <TouchableOpacity style={styles.yes_no_button} onPress={() => navigation.navigate('login')}>
+        <Text style={styles.loginText}>Yes</Text> 
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.yes_no_button} onPress={() => navigation.navigate('register')}>
+        <Text style={styles.loginText}>No</Text>
+      </TouchableOpacity> 
     </View>
   );
 }
@@ -342,6 +284,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#7af09a",
   },
   create_button: {
+    width: "80%",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10,
+    backgroundColor: "#7af09a",
+  },
+  yes_no_button: {
     width: "80%",
     borderRadius: 25,
     height: 50,
@@ -410,6 +361,7 @@ export default function App() {
       <Stack.Screen name="register" component={RegisterScreen} />
       <Stack.Screen name="login" component={LoginScreen} />
       <Stack.Screen name="home" component={HomeScreen} />
+      <Stack.Screen name="welcome" component={WelcomeScreen} />
     </Stack.Navigator>
   </NavigationContainer>
   );
