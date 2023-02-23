@@ -14,7 +14,8 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from "react-native";
-import Loader from './assets/Loader';
+import Loader from './loader';
+import firebaseConfig from './firebase';
 
 function SplashScreen({ navigation }) {
   return (
@@ -61,6 +62,7 @@ function LoginScreen({ navigation }) {
   );
 }
 function RegisterScreen({ navigation }) {
+  const [currentUser, setCurrentUser] = useState(null);
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -83,50 +85,20 @@ function RegisterScreen({ navigation }) {
       alert('Please fill Password');
       return;
     }
-  //Show Loader
-  setLoading(true);
-  var dataToSend = {
-    email: userEmail,
-    password: userPassword,
-  };
-  var formBody = [];
-  for (var key in dataToSend) {
-    var encodedKey = encodeURIComponent(key);
-    var encodedValue = encodeURIComponent(dataToSend[key]);
-    formBody.push(encodedKey + '=' + encodedValue);
+    //Show Loader
+    setLoading(true);
+    try {
+      firebaseConfig.auth().createUserWithEmailAndPassword(userEmail, userPassword);      
+      setCurrentUser(true);
+    } catch (error) {
+      alert(error);
+    }
+    if (currentUser) {
+      setIsRegistraionSuccess(true);
+    }
+    //Hide Loader
+    setLoading(false)
   }
-  formBody = formBody.join('&');
-
-  fetch('http://myapp-3581c.firebaseapp.com', {
-    method: 'POST',
-    body: formBody,
-    headers: {
-      //Header Defination
-      'Content-Type':
-      'application/x-www-form-urlencoded;charset=UTF-8',
-    },
-  })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      //Hide Loader
-      setLoading(false);
-      console.log(responseJson);
-      // If server response message same as Data Matched
-      if (responseJson.status === 'success') {
-        setIsRegistraionSuccess(true);
-        console.log(
-          'Registration Successful. Please Login to proceed'
-        );
-      } else {
-        setErrortext(responseJson.msg);
-      }
-    })
-    .catch((error) => {
-      //Hide Loader
-      setLoading(false);
-      console.error(error);
-    });
-}
 if (isRegistraionSuccess) {
   return (
     <View
